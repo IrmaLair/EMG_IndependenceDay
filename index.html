@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imagine India @ 2047 — Emaginations</title>
+<meta name="description" content="Discover your Yuva Shakti and build your India @ 2047. From Emaginations, this Independence Day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --cream:#FBF3E7;
+    --cream-deep:#F3E7D4;
+    --ink:#2B2320;
+    --ink-soft:#6b5f56;
+    --saffron:#DD5B2A;
+    --teal:#1F5A5E;
+    --green:#2E6E49;
+    --marigold:#F0A93E;
+    --rose:#D65B6B;
+    --line: rgba(43,35,32,0.12);
+    --radius: 22px;
+    --accent: var(--marigold);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:'Manrope',sans-serif;
+    font-weight:700;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+  }
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  button:focus-visible, a:focus-visible{outline:2.5px solid var(--ink); outline-offset:3px;}
+
+  .app{position:relative; min-height:100vh; width:100%;}
+  .screen{
+    display:none;
+    min-height:100vh;
+    width:100%;
+    padding: 8vh 6vw 10vh;
+    position:relative;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+  }
+  .screen.active{display:flex;}
+  .screen-inner{max-width:640px; width:100%; display:flex; flex-direction:column; align-items:center; gap:28px;}
+
+  .doodle{position:absolute; border-radius:50%; opacity:0.35; pointer-events:none;}
+  @keyframes drift{ 0%,100%{transform:translateY(0px) translateX(0px);} 50%{transform:translateY(-14px) translateX(8px);} }
+
+  .bulb-wrap{position:fixed; bottom:26px; left:26px; z-index:40; width:64px; height:80px;}
+  .bulb-wrap svg{width:100%; height:100%; overflow:visible;}
+  .bulb-glass{fill:var(--marigold); transition:fill 0.6s ease;}
+  .bulb-filament{stroke:var(--cream); stroke-width:2; fill:none; opacity:0.9;}
+  .bulb-glow{fill:var(--marigold); opacity:0; filter:blur(10px); transition:opacity 0.6s ease, fill 0.6s ease;}
+  .bulb-eye{fill:var(--ink);}
+  .state-idle .bulb-glass{opacity:0.35;}
+  .state-idle .bulb-glow{opacity:0;}
+  .state-idle .bulb-eye{display:none;}
+  .state-waking .bulb-glass{opacity:0.8;}
+  .state-waking .bulb-glow{opacity:0.35;}
+  .state-curious .bulb-glass{opacity:0.9;}
+  .state-curious .bulb-glow{opacity:0.3;}
+  .state-curious .bulb-wrap-inner{animation:tilt 1.8s ease-in-out infinite;}
+  @keyframes tilt{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-8deg);}}
+  .state-glowing .bulb-glass{opacity:1;}
+  .state-glowing .bulb-glow{opacity:0.6; filter:blur(16px);}
+  .state-sparking .bulb-glass{opacity:1;}
+  .state-sparking .bulb-glow{opacity:0.55;}
+  .spark{position:absolute; width:5px; height:5px; border-radius:50%; background:var(--marigold); opacity:0;}
+  .state-sparking .spark{animation:spark-fly 1.6s ease-out infinite;}
+  @keyframes spark-fly{
+    0%{opacity:0; transform:translate(0,0) scale(0.4);}
+    15%{opacity:1;}
+    100%{opacity:0; transform:translate(var(--sx), var(--sy)) scale(1);}
+  }
+
+  #screen-landing .blob-stage{position:relative; width:min(420px, 82vw); height:340px; margin-bottom:6px;}
+  .blob-shape{
+    position:absolute; inset:0;
+    background: linear-gradient(155deg, var(--marigold) 0%, var(--saffron) 55%, var(--rose) 100%);
+    clip-path: path('M210,10 C300,10 360,70 372,150 C384,232 360,300 300,330 C250,356 190,352 140,326 C78,294 30,244 22,176 C14,104 60,44 128,20 C155,10 182,10 210,10 Z');
+    opacity:0.92;
+  }
+  .blob-icon{position:absolute; font-size:1.5rem; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.12));}
+  .headline{font-size: clamp(2.2rem, 6vw, 3.4rem); line-height:1.05;}
+  .headline em{font-style:italic; color:var(--saffron);}
+  .subhead{font-size:1.05rem; color:var(--ink-soft); max-width:440px; line-height:1.55;}
+  .cta-btn{
+    background:var(--ink); color:var(--cream);
+    padding:16px 34px; border-radius:999px;
+    font-weight:700; font-size:1rem;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform 0.25s ease, background 0.25s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px); background:var(--saffron);}
+  .fine-print{font-size:0.82rem; color:var(--ink-soft);}
+  .footer-mark{position:fixed; bottom:22px; right:26px; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); font-weight:700; z-index:30;}
+
+  .shared-banner{
+    background:var(--cream-deep); border:1px solid var(--line); border-radius:18px;
+    padding:16px 22px; font-size:0.92rem; color:var(--ink); max-width:480px;
+  }
+  .shared-banner b{color:var(--saffron);}
+
+  .progress-track{width:100%; max-width:420px; height:5px; background:var(--line); border-radius:99px; overflow:hidden;}
+  .progress-fill{height:100%; background:var(--saffron); border-radius:99px; transition:width 0.5s ease;}
+  .q-count{font-size:0.8rem; color:var(--ink-soft); font-weight:700; letter-spacing:0.06em;}
+  .q-text{font-size:clamp(1.5rem,4vw,2.1rem); line-height:1.28; max-width:560px;}
+  .options{display:flex; flex-direction:column; gap:12px; width:100%; max-width:520px;}
+  .option-tile{
+    display:flex; align-items:center; gap:14px;
+    background:#fff; border:1.5px solid var(--line); border-radius:16px;
+    padding:16px 18px; text-align:left; font-size:0.98rem; line-height:1.4;
+    transition:all 0.25s ease;
+  }
+  .option-tile:hover{border-color:var(--saffron); transform:translateX(3px);}
+  .option-tile.chosen{background:var(--marigold); border-color:var(--marigold); color:var(--ink); transform:scale(1.02);}
+  .option-emoji{font-size:1.3rem; flex-shrink:0;}
+
+  #screen-tiebreak{background:linear-gradient(180deg, #17393c 0%, #10282a 100%); color:var(--cream);}
+  #screen-tiebreak .eyebrow{color:#9fc7c9;}
+  #screen-tiebreak .q-text{color:var(--cream);}
+  .flag-frozen{width:70px; height:100px; position:relative; margin-bottom:6px;}
+  .flag-pole{position:absolute; left:6px; top:0; bottom:0; width:3px; background:#cfae7a;}
+  .flag-cloth{position:absolute; left:9px; top:8px; width:52px; height:36px; display:flex; flex-direction:column; box-shadow:0 4px 14px rgba(0,0,0,0.3);}
+  .flag-cloth div{flex:1;}
+  .flag-cloth .b1{background:var(--saffron);}
+  .flag-cloth .b2{background:#fdf8ee; position:relative;}
+  .flag-cloth .b2::after{content:'';position:absolute;top:50%;left:50%;width:8px;height:8px;border:1.5px solid var(--teal);border-radius:50%;transform:translate(-50%,-50%);}
+  .flag-cloth .b3{background:var(--green);}
+  .tiebreak-options{display:grid; grid-template-columns:1fr 1fr; gap:16px; width:100%; max-width:560px;}
+  .tb-tile{
+    background:rgba(255,255,255,0.06); border:1.5px solid rgba(255,255,255,0.18);
+    border-radius:18px; padding:22px 16px; color:var(--cream); font-size:0.95rem; line-height:1.45;
+    transition:all 0.25s ease;
+  }
+  .tb-tile:hover{background:rgba(255,255,255,0.14); transform:translateY(-3px);}
+  .tb-emoji{font-size:1.6rem; display:block; margin-bottom:10px;}
+
+  #screen-result{transition:background 0.6s ease;}
+  .result-emoji{font-size:3.4rem; line-height:1;}
+  .result-name{font-size:clamp(2.4rem,7vw,3.6rem); font-style:italic;}
+  .result-tagline{font-size:1.15rem; max-width:480px; font-weight:600;}
+  .result-desc{font-size:1rem; color:var(--ink-soft); max-width:480px; line-height:1.6;}
+  .superpower-pill{
+    background:rgba(43,35,32,0.08); border-radius:999px; padding:9px 20px;
+    font-size:0.85rem; font-weight:700; letter-spacing:0.02em;
+  }
+
+  .landscape{
+    width:100%; max-width:560px; height:150px; border-radius:20px;
+    background:linear-gradient(180deg, #fff 0%, var(--cream-deep) 100%);
+    border:1.5px solid var(--line);
+    position:relative; overflow:hidden; margin-bottom:4px;
+  }
+  .landscape .hill{position:absolute; bottom:-30px; width:220px; height:120px; border-radius:50%; background:var(--cream-deep); opacity:0.7;}
+  .landscape .hill.h1{left:-60px;}
+  .landscape .hill.h2{right:-80px; height:90px;}
+  .landscape-item{
+    position:absolute; bottom:14px; font-size:1.7rem;
+    opacity:0; transform:translateY(16px) scale(0.6);
+    transition:all 0.6s cubic-bezier(.2,1.4,.4,1);
+  }
+  .landscape-item.grown{opacity:1; transform:translateY(0) scale(1);}
+  .tiles-count{font-size:0.85rem; font-weight:700; color:var(--ink-soft);}
+  .tiles-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; width:100%; max-width:560px;}
+  @media (max-width:560px){.tiles-grid{grid-template-columns:repeat(2,1fr);}}
+  .tile{
+    background:#fff; border:1.5px solid var(--line); border-radius:16px;
+    padding:16px 8px; display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-size:0.78rem; font-weight:700; line-height:1.2; transition:all 0.2s ease;
+  }
+  .tile .tile-emoji{font-size:1.5rem;}
+  .tile:hover{border-color:var(--green);}
+  .tile.picked{background:var(--green); border-color:var(--green); color:#fff;}
+  .tile:disabled{opacity:0.35; pointer-events:none;}
+  .build-msg{font-size:1.15rem; font-style:italic; font-family:'Fraunces',serif; min-height:1.6em;}
+
+  .card-frame{
+    width:280px; aspect-ratio:9/16; border-radius:22px; overflow:hidden;
+    box-shadow:0 20px 50px rgba(43,35,32,0.18);
+    position:relative;
+  }
+  #shareCard{
+    width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
+    justify-content:space-between; padding:26px 18px; text-align:center;
+    color:#fff; font-family:'Manrope',sans-serif;
+    background:linear-gradient(165deg, var(--accent) 0%, #2B2320 130%);
+  }
+  #shareCard .sc-flag{font-size:1.3rem;}
+  #shareCard .sc-title{font-family:'Fraunces',serif; font-size:1rem; letter-spacing:0.02em; font-weight:600;}
+  #shareCard .sc-eyebrow{font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; opacity:0.85; font-weight:700;}
+  #shareCard .sc-archetype-emoji{font-size:2.6rem;}
+  #shareCard .sc-archetype-name{font-family:'Fraunces',serif; font-style:italic; font-size:1.5rem;}
+  #shareCard .sc-choices{display:flex; gap:14px; justify-content:center;}
+  #shareCard .sc-choice{font-size:1.4rem;}
+  #shareCard .sc-choice-label{font-size:0.55rem; font-weight:700; opacity:0.85; margin-top:2px;}
+  #shareCard .sc-cta{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; line-height:1.4; padding:0 6px;}
+  #shareCard .sc-signoff{font-size:0.62rem; line-height:1.5; opacity:0.9;}
+  #shareCard .sc-brand{font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:800;}
+
+  .share-actions{display:flex; flex-wrap:wrap; gap:10px; justify-content:center;}
+  .btn-secondary{
+    border:1.5px solid var(--ink); color:var(--ink); padding:12px 22px; border-radius:999px;
+    font-weight:700; font-size:0.9rem; transition:all 0.2s ease;
+  }
+  .btn-secondary:hover{background:var(--ink); color:var(--cream);}
+  .copied-toast{font-size:0.8rem; color:var(--green); font-weight:700; height:1em;}
+  .id-signoff{font-size:0.85rem; color:var(--ink-soft); max-width:460px; line-height:1.6; font-style:italic; margin-top:10px;}
+
+  .back-link{position:absolute; top:22px; left:26px; font-size:0.82rem; font-weight:700; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
+  .back-link:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="bulb-wrap state-idle" id="bulb">
+    <div class="bulb-wrap-inner" style="width:100%;height:100%;position:relative;">
+      <svg viewBox="0 0 64 80">
+        <ellipse class="bulb-glow" cx="32" cy="34" rx="26" ry="26"/>
+        <circle class="bulb-glass" cx="32" cy="34" r="22"/>
+        <path class="bulb-filament" d="M22 30 Q32 44 42 30"/>
+        <rect x="24" y="54" width="16" height="10" rx="3" fill="#cfae7a"/>
+        <circle class="bulb-eye" cx="25" cy="32" r="2.2"/>
+        <circle class="bulb-eye" cx="39" cy="32" r="2.2"/>
+      </svg>
+      <div class="spark" style="top:20px;left:10px;--sx:-24px;--sy:-16px;"></div>
+      <div class="spark" style="top:24px;left:50px;--sx:26px;--sy:-10px; animation-delay:0.3s;"></div>
+      <div class="spark" style="top:10px;left:30px;--sx:4px;--sy:-30px; animation-delay:0.6s;"></div>
+    </div>
+  </div>
+  <div class="footer-mark">Emaginations</div>
+
+  <section class="screen active" id="screen-landing">
+    <div class="screen-inner">
+      <div class="shared-banner" id="sharedBanner" style="display:none;"></div>
+      <div class="eyebrow">Independence Day, from Emaginations</div>
+      <div class="blob-stage">
+        <div class="blob-shape"></div>
+        <span class="blob-icon" style="top:40px; left:60px;">🌱</span>
+        <span class="blob-icon" style="top:90px; right:50px;">💡</span>
+        <span class="blob-icon" style="bottom:80px; left:40px;">🎨</span>
+        <span class="blob-icon" style="bottom:60px; right:70px;">🚀</span>
+        <span class="blob-icon" style="top:150px; left:170px;">🤝</span>
+      </div>
+      <h1 class="headline">Imagine India <em>@ 2047</em></h1>
+      <p class="subhead">Somewhere between who we are and who we're becoming, there's a version of India only you can imagine. What's your Yuva Shakti?</p>
+      <button class="cta-btn" onclick="startQuiz()">Discover Mine →</button>
+      <div class="fine-print">Takes less than a minute. No sign-up. Just imagination.</div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-quiz">
+    <div class="screen-inner">
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+      <div class="q-count" id="qCount">QUESTION 1 OF 5</div>
+      <h2 class="q-text" id="qText"></h2>
+      <div class="options" id="qOptions"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-tiebreak">
+    <div class="screen-inner">
+      <div class="eyebrow">One last thing, because you're clearly torn</div>
+      <div class="flag-frozen">
+        <div class="flag-pole"></div>
+        <div class="flag-cloth"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
+      </div>
+      <h2 class="q-text">The clock reaches midnight. The flag is halfway up. This time, it's your call to make.</h2>
+      <p style="color:#cfe3e3; max-width:480px; font-size:0.95rem;">Same night. Same crowd. Same minute before midnight, August 14th, 1947 — except this time, someone turns to you and asks what happens next. There's no time left to weigh it. What do you do?</p>
+      <div class="tiebreak-options" id="tbOptions"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-result">
+    <div class="screen-inner">
+      <div class="eyebrow">Your Yuva Shakti</div>
+      <div class="result-emoji" id="resEmoji"></div>
+      <h2 class="result-name" id="resName"></h2>
+      <p class="result-tagline" id="resTagline"></p>
+      <p class="result-desc" id="resDesc"></p>
+      <div class="superpower-pill" id="resSuperpower"></div>
+      <button class="cta-btn" onclick="goToBuild()" style="margin-top:6px;">Use my superpower →</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-build">
+    <div class="screen-inner">
+      <div class="eyebrow">Build your India</div>
+      <h2 class="q-text" style="font-size:clamp(1.6rem,4.5vw,2.2rem);">Pick 3 things you want to see flourish in India by 2047.</h2>
+      <div class="landscape" id="landscape">
+        <div class="hill h1"></div><div class="hill h2"></div>
+      </div>
+      <div class="tiles-count" id="tilesCount">0 of 3 chosen</div>
+      <div class="tiles-grid" id="tilesGrid"></div>
+      <div class="build-msg" id="buildMsg"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-share">
+    <div class="screen-inner">
+      <div class="eyebrow">Your India 2047, imagined</div>
+      <div class="card-frame">
+        <div id="shareCard">
+          <div class="sc-flag">🇮🇳</div>
+          <div>
+            <div class="sc-title">Imagine India @ 2047</div>
+          </div>
+          <div>
+            <div class="sc-eyebrow">My Yuva Shakti</div>
+            <div class="sc-archetype-emoji" id="scEmoji"></div>
+            <div class="sc-archetype-name" id="scName"></div>
+          </div>
+          <div>
+            <div class="sc-eyebrow" style="margin-bottom:8px;">I choose</div>
+            <div class="sc-choices" id="scChoices"></div>
+          </div>
+          <div class="sc-cta" id="scCta"></div>
+          <div>
+            <div class="sc-signoff">Happy Independence Day, from Emaginations —<br>may your ideas find their India.</div>
+            <div class="sc-brand" style="margin-top:8px;">Emaginations · A Creative Ecospace</div>
+          </div>
+        </div>
+      </div>
+      <div class="share-actions">
+        <button class="btn-secondary" onclick="copyMyLink()">Copy my link</button>
+        <button class="btn-secondary" onclick="downloadCard()">Download my card</button>
+        <button class="btn-secondary" onclick="resetAll()">Build it again</button>
+      </div>
+      <div class="copied-toast" id="copiedToast"></div>
+      <p class="id-signoff">This Independence Day, Emaginations is imagining India with every young mind willing to dream one up. Here's to the India only you could have imagined.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const ARCHETYPES = {
+  imaginer:   {key:'imaginer',   name:'The Imaginer',    emoji:'💡', color:'#F0A93E',
+    tagline:"You see possibilities where others see blank spaces.",
+    desc:"You don't wait for the picture to be clear — you sketch it yourself, in the dark, before anyone else can see it. India's future needs people who can imagine it before it exists.",
+    superpower:'Turning ideas into possibility.',
+    cta:"My superpower's imagining what's next. What's yours?"},
+  builder:    {key:'builder',    name:'The Builder',     emoji:'🛠️', color:'#DD5B2A',
+    tagline:"You turn ideas into something you can actually touch.",
+    desc:"While others are still discussing it, you're already making the first version. India's future gets built one working thing at a time — and you're the one building it.",
+    superpower:'Turning ideas into reality.',
+    cta:"My superpower's building what's next. What's yours?"},
+  connector:  {key:'connector',  name:'The Connector',   emoji:'🤝', color:'#D65B6B',
+    tagline:"You bring people together who didn't know they needed each other.",
+    desc:"You see the invisible threads between people — the introduction, the shared table, the right person at the right moment. India's future is a team sport, and you're the one who assembles it.",
+    superpower:'Turning strangers into collaborators.',
+    cta:"My superpower's bringing people together. What's yours?"},
+  explorer:   {key:'explorer',   name:'The Explorer',    emoji:'🔍', color:'#1F5A5E',
+    tagline:"You go first, so the rest of us know it's possible.",
+    desc:"New places, new questions, new ways of doing old things — you're pulled toward what hasn't been mapped yet. India's future needs people willing to go there before there's a path.",
+    superpower:'Turning the unknown into the next frontier.',
+    cta:"My superpower's going first. What's yours?"},
+  changemaker:{key:'changemaker',name:'The Changemaker',emoji:'🌱', color:'#2E6E49',
+    tagline:"You leave things a little better than you found them.",
+    desc:"You notice who's been left out of the plan — and you go back for them. India's future isn't just bigger or faster; because of people like you, it's fairer too.",
+    superpower:'Turning progress into progress for everyone.',
+    cta:"My superpower's leaving things better. What's yours?"}
+};
+
+const QUESTIONS = [
+  { text:"It's midnight, August 14th, 1947. You're standing in the crowd as the flag is about to rise for the first time in a free country. What can you not look away from?",
+    options:[
+      {a:'builder', t:'The hands that stitched the last flag together, just in time', e:'🛠️'},
+      {a:'imaginer', t:"The strange quiet right before something no one's ever seen begins", e:'💡'},
+      {a:'connector', t:'Strangers holding onto each other — some crying, some cheering, all at once', e:'🤝'},
+      {a:'explorer', t:'The road leading out of the city, and where it might go now', e:'🔍'},
+      {a:'changemaker', t:'The faces at the very back, still straining to get close enough to see', e:'🌱'},
+    ]},
+  { text:"A letter arrives from the year 2047, addressed to India in 1947 — but somehow, only you can read it. Which line makes you stop?",
+    options:[
+      {a:'builder', t:'"Everything they only dreamed of, someone eventually built."', e:'🛠️'},
+      {a:'imaginer', t:'"The strangest ideas turned out to be the true ones."', e:'💡'},
+      {a:'connector', t:'"No one changed the country alone — not once."', e:'🤝'},
+      {a:'explorer', t:'"There was always somewhere further to go."', e:'🔍'},
+      {a:'changemaker', t:'"Nobody was left standing outside, waiting, anymore."', e:'🌱'},
+    ]},
+  { text:"Your grandmother hands you a small, unlabeled tin box — something she carried with her through Partition. What do you hope is inside?",
+    options:[
+      {a:'builder', t:'Tools, worn smooth from years of use', e:'🛠️'},
+      {a:'imaginer', t:'A blank notebook, page one, never written on', e:'💡'},
+      {a:'connector', t:'A photograph of a table full of people she loved', e:'🤝'},
+      {a:'explorer', t:'A map, with the places she never reached marked in pencil', e:'🔍'},
+      {a:'changemaker', t:"A list of names — people she promised she'd never forget", e:'🌱'},
+    ]},
+  { text:"You're packed shoulder to shoulder in a village square in 1947, around a single radio, as Nehru's voice announces India has \"awoken to life and freedom.\" What do you find yourself doing, without quite realizing it?",
+    options:[
+      {a:'builder', t:"Already thinking of the first thing you'd fix, tomorrow morning", e:'🛠️'},
+      {a:'imaginer', t:'Trying to picture a country that only exists in sound, so far', e:'💡'},
+      {a:'connector', t:"Reaching for the hand of whoever's standing next to you", e:'🤝'},
+      {a:'explorer', t:'Wondering how far this voice is traveling right now — how many villages, how many miles', e:'🔍'},
+      {a:'changemaker', t:"Looking around to see who isn't there to hear it", e:'🌱'},
+    ]},
+  { text:"You're one of thousands walking beside Gandhi on the salt march to Dandi — day sixteen, feet aching, still 24 days from the sea. What keeps you moving?",
+    options:[
+      {a:'builder', t:"Knowing exactly what you'll do the moment you reach the water", e:'🛠️'},
+      {a:'imaginer', t:'Still not quite believing an idea this simple could shake an empire', e:'💡'},
+      {a:'connector', t:"The person beside you, who hasn't stopped talking since dawn", e:'🤝'},
+      {a:'explorer', t:'Not knowing what’s around the next bend — and needing to find out', e:'🔍'},
+      {a:'changemaker', t:"Thinking of everyone back home who couldn't make this walk themselves", e:'🌱'},
+    ]},
+];
+
+const TIEBREAK_LINES = {
+  builder: "Already reaching for the first tool you'll need at dawn.",
+  imaginer: "Letting yourself picture something no one has dared to picture yet.",
+  connector: "Turning to find the people you'll need standing beside you for this.",
+  explorer: "Looking past the crowd, toward wherever the road keeps going.",
+  changemaker: "Counting who still isn't standing close enough to see.",
+};
+
+const ASPIRATIONS = [
+  {id:'green', e:'🌱', label:'A Greener India'},
+  {id:'innovative', e:'💡', label:'An Innovative India'},
+  {id:'creative', e:'🎨', label:'A Creative India'},
+  {id:'knowledge', e:'📚', label:'A Knowledge-Rich India'},
+  {id:'connected', e:'🤝', label:'A Connected India'},
+  {id:'explorative', e:'🚀', label:'An Explorative India'},
+  {id:'inclusive', e:'❤️', label:'An Inclusive India'},
+  {id:'future', e:'🏙️', label:'A Future-Ready India'},
+];
+
+let scores = {imaginer:0, builder:0, connector:0, explorer:0, changemaker:0};
+let currentQ = 0;
+let resultKey = null;
+let chosen = [];
+const bulb = document.getElementById('bulb');
+
+function setBulb(state){ bulb.className = 'bulb-wrap state-' + state; }
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+(function initSharedView(){
+  const params = new URLSearchParams(location.search);
+  const shared = params.get('shakti');
+  if(shared && ARCHETYPES[shared]){
+    const a = ARCHETYPES[shared];
+    const banner = document.getElementById('sharedBanner');
+    banner.style.display = 'block';
+    banner.innerHTML = `${a.emoji} Someone shared their Yuva Shakti: <b>${a.name}</b>. ${a.cta.replace("My superpower's", "Their superpower's")}<br><span style="font-size:0.82rem;">Find yours below.</span>`;
+  }
+})();
+setBulb('waking');
+setTimeout(()=>setBulb('idle'), 1400);
+
+function startQuiz(){
+  currentQ = 0;
+  scores = {imaginer:0, builder:0, connector:0, explorer:0, changemaker:0};
+  showScreen('screen-quiz');
+  setBulb('curious');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[currentQ];
+  document.getElementById('qCount').textContent = `QUESTION ${currentQ+1} OF ${QUESTIONS.length}`;
+  document.getElementById('progressFill').style.width = ((currentQ)/QUESTIONS.length*100) + '%';
+  document.getElementById('qText').textContent = q.text;
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+  q.options.forEach(o=>{
+    const btn = document.createElement('button');
+    btn.className = 'option-tile';
+    btn.innerHTML = `<span class="option-emoji">${o.e}</span><span>${o.t}</span>`;
+    btn.onclick = ()=>selectOption(btn, o.a);
+    opts.appendChild(btn);
+  });
+}
+
+function selectOption(btn, archetype){
+  document.querySelectorAll('.option-tile').forEach(t=>t.disabled=true);
+  btn.classList.add('chosen');
+  scores[archetype]++;
+  setTimeout(()=>{
+    currentQ++;
+    if(currentQ < QUESTIONS.length){
+      renderQuestion();
+    } else {
+      document.getElementById('progressFill').style.width = '100%';
+      finishQuiz();
+    }
+  }, 420);
+}
+
+function finishQuiz(){
+  const entries = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const top = entries[0][1];
+  const tied = entries.filter(e=>e[1]===top).map(e=>e[0]);
+  if(tied.length > 1){
+    showTiebreak(tied.slice(0,2));
+  } else {
+    resultKey = entries[0][0];
+    showResult(resultKey);
+  }
+}
+
+function showTiebreak(pair){
+  showScreen('screen-tiebreak');
+  const wrap = document.getElementById('tbOptions');
+  wrap.innerHTML = '';
+  pair.forEach(key=>{
+    const a = ARCHETYPES[key];
+    const btn = document.createElement('button');
+    btn.className = 'tb-tile';
+    btn.innerHTML = `<span class="tb-emoji">${a.emoji}</span>${TIEBREAK_LINES[key]}`;
+    btn.onclick = ()=>{ resultKey = key; showResult(key); };
+    wrap.appendChild(btn);
+  });
+}
+
+function showResult(key){
+  const a = ARCHETYPES[key];
+  document.getElementById('resEmoji').textContent = a.emoji;
+  document.getElementById('resName').textContent = a.name;
+  document.getElementById('resTagline').textContent = a.tagline;
+  document.getElementById('resDesc').textContent = a.desc;
+  document.getElementById('resSuperpower').textContent = 'Your superpower: ' + a.superpower.toLowerCase();
+  document.getElementById('screen-result').style.background = a.color + '22';
+  showScreen('screen-result');
+  setBulb('glowing');
+}
+
+function goToBuild(){
+  chosen = [];
+  document.getElementById('landscape').querySelectorAll('.landscape-item').forEach(n=>n.remove());
+  document.getElementById('tilesCount').textContent = '0 of 3 chosen';
+  document.getElementById('buildMsg').textContent = '';
+  showScreen('screen-build');
+  setBulb('sparking');
+  renderTiles();
+}
+
+function renderTiles(){
+  const grid = document.getElementById('tilesGrid');
+  grid.innerHTML = '';
+  ASPIRATIONS.forEach(asp=>{
+    const btn = document.createElement('button');
+    btn.className = 'tile';
+    btn.innerHTML = `<span class="tile-emoji">${asp.e}</span><span>${asp.label}</span>`;
+    btn.onclick = ()=>pickTile(asp, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function pickTile(asp, btn){
+  if(chosen.includes(asp.id) || chosen.length>=3) return;
+  chosen.push(asp.id);
+  btn.classList.add('picked');
+  document.getElementById('tilesCount').textContent = `${chosen.length} of 3 chosen`;
+  growLandscape(asp);
+  if(chosen.length===3){
+    document.querySelectorAll('.tile').forEach(t=>t.disabled=true);
+    document.getElementById('buildMsg').innerHTML = "You just imagined a little piece of India 2047.<br><button class='cta-btn' style='margin-top:14px;' onclick='goToShare()'>See my card →</button>";
+  }
+}
+
+function growLandscape(asp){
+  const land = document.getElementById('landscape');
+  const item = document.createElement('div');
+  item.className = 'landscape-item';
+  item.textContent = asp.e;
+  const spot = 20 + chosen.length * 22 + Math.random()*8;
+  item.style.left = spot + '%';
+  land.appendChild(item);
+  requestAnimationFrame(()=> requestAnimationFrame(()=> item.classList.add('grown')));
+}
+
+function goToShare(){
+  const a = ARCHETYPES[resultKey];
+  document.getElementById('shareCard').style.background = `linear-gradient(165deg, ${a.color} 0%, #2B2320 130%)`;
+  document.getElementById('scEmoji').textContent = a.emoji;
+  document.getElementById('scName').textContent = a.name;
+  document.getElementById('scCta').textContent = a.cta;
+  const choicesWrap = document.getElementById('scChoices');
+  choicesWrap.innerHTML = '';
+  chosen.forEach(id=>{
+    const asp = ASPIRATIONS.find(x=>x.id===id);
+    const d = document.createElement('div');
+    d.innerHTML = `<div class="sc-choice">${asp.e}</div><div class="sc-choice-label">${asp.label.replace('A ','').replace('An ','')}</div>`;
+    choicesWrap.appendChild(d);
+  });
+  showScreen('screen-share');
+}
+
+function copyMyLink(){
+  const url = `${location.origin}${location.pathname}?shakti=${resultKey}`;
+  navigator.clipboard.writeText(url).then(()=>{
+    const toast = document.getElementById('copiedToast');
+    toast.textContent = 'Link copied — your India, your imagery, your India to share.';
+    setTimeout(()=>toast.textContent='', 3000);
+  }).catch(()=>{
+    prompt('Copy your link:', url);
+  });
+}
+
+function downloadCard(){
+  const card = document.getElementById('shareCard');
+  html2canvas(card, {scale:3, useCORS:true}).then(canvas=>{
+    const link = document.createElement('a');
+    link.download = `imagine-india-2047-${resultKey}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+function resetAll(){
+  showScreen('screen-landing');
+  setBulb('idle');
+}
+</script>
+</body>
+</html>
