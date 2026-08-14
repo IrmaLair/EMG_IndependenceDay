@@ -5,15 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Imagine India @ 2047 — Emaginations</title>
 <meta name="description" content="Discover your Yuva Shakti and build your India @ 2047. From Emaginations, this Independence Day.">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Imagine India @ 2047">
 <meta property="og:description" content="Discover your Yuva Shakti and build your India @ 2047.">
-<meta property="og:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/emaginations%20logo%20icon.png">
+<meta property="og:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website%20thumbnail.png">
 <meta property="og:url" content="https://emaginations-independence-day-yuva-shakti.onrender.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Imagine India @ 2047">
 <meta name="twitter:description" content="Discover your Yuva Shakti and build your India @ 2047.">
-<meta name="twitter:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/emaginations%20logo%20icon.png">
+<meta name="twitter:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website%20thumbnail.png">
 <link rel="canonical" href="https://emaginations-independence-day-yuva-shakti.onrender.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -230,7 +231,7 @@
   .build-msg{font-size:1.15rem; font-style:italic; font-family:'Fraunces',serif; min-height:1.6em;}
 
   .card-frame{
-    width:280px; height:520px; border-radius:22px; overflow:hidden;
+    width:280px; height:420px; border-radius:22px; overflow:hidden;
     box-shadow:0 20px 50px rgba(43,35,32,0.18);
     position:relative;
   }
@@ -238,7 +239,7 @@
   .share-polaroids img{width:48px; height:56px; object-fit:cover; border-radius:6px; box-shadow:0 8px 20px rgba(0,0,0,0.12)}
   #shareCard{
     width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
-    justify-content:space-between; padding:22px 16px; text-align:center;
+    justify-content:space-between; padding:16px 12px; text-align:center;
     color:#fff; font-family:'Manrope',sans-serif;
     background:linear-gradient(165deg, var(--accent) 0%, #2B2320 130%);
   }
@@ -246,16 +247,16 @@
   #shareCard .sc-title{font-family:'Fraunces',serif; font-size:1rem; letter-spacing:0.02em; font-weight:600;}
   #shareCard .sc-eyebrow{font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; opacity:0.85; font-weight:700;}
   #shareCard .sc-archetype-emoji{font-size:2.6rem;}
-  #shareCard .sc-archetype-emoji{width:200px; margin-bottom:8px;}
+  #shareCard .sc-archetype-emoji{width:200px; margin-bottom:-4px;}
   #shareCard .sc-archetype-emoji img{width:100%; height:auto; border-radius:12px;}
-  .sc-brand-logo{width:26px; height:auto; margin-top:4px;}
-  #shareCard .sc-archetype-name{font-family:'Fraunces',serif; font-style:italic; font-size:calc(1.5rem + 2px); margin-top:0;}
+  .sc-brand-logo{width:22px; height:auto; margin-top:2px;}
+  #shareCard .sc-archetype-name{font-family:'Fraunces',serif; font-style:italic; font-size:calc(1.5rem + 2px); margin-top:0; margin-bottom:5px;}
   #shareCard .sc-title{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; margin-bottom:6px;}
-  #shareCard .sc-choices{display:flex; justify-content:center; align-items:flex-start; gap:18px; margin-top:4px; margin-bottom:8px; width:100%; flex-wrap:nowrap;}
+  #shareCard .sc-choices{display:flex; justify-content:center; align-items:flex-start; gap:12px; margin-top:2px; margin-bottom:4px; width:100%; flex-wrap:nowrap;}
   #shareCard .sc-choice-wrap{flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px;}
   #shareCard .sc-choice{font-size:1.4rem;}
-  #shareCard .sc-choice-label{font-size:0.7rem; font-weight:700; opacity:0.9; line-height:1.25; margin-top:0px; max-width:none; text-align:center; word-break:break-word; overflow-wrap:anywhere; white-space:normal;}
-  #shareCard .sc-cta{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; line-height:1.4; padding:0 6px;}
+  #shareCard .sc-choice-label{font-size:0.65rem; font-weight:700; opacity:0.9; line-height:1.2; margin-top:0px; max-width:none; text-align:center; word-break:break-word; overflow-wrap:anywhere; white-space:normal;}
+  #shareCard .sc-cta{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; line-height:1.4; padding:0 6px; margin-top:5px;}
   #shareCard .sc-signoff{font-size:0.62rem; line-height:1.5; opacity:0.9;}
   #shareCard .sc-brand{font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:800;}
 
@@ -512,7 +513,7 @@ function showScreen(id){
     const a = ARCHETYPES[shared];
     const banner = document.getElementById('sharedBanner');
     banner.style.display = 'block';
-    banner.innerHTML = `${a.emoji} Someone shared their Yuva Shakti: <b>${a.name}</b>. ${a.cta.replace("My superpower's", "Their superpower's")}<br><span style="font-size:0.82rem;">Find yours below.</span>`;
+    banner.innerHTML = `${a.emoji} Someone shared their Yuva Shakti: <b>${a.name}</b>. ${a.cta.replace("My superpower's", "Their superpower's")}`;
     resultKey = shared;
     setShareMeta(shared);
   }
@@ -692,7 +693,8 @@ function pickTile(asp, btn, src){
   setTimeout(()=> btn.style.transform = '', 520);
   if(chosen.length===3){
     document.querySelectorAll('.tile').forEach(t=>t.disabled=true);
-    document.getElementById('buildMsg').innerHTML = "You just imagined a little piece of India 2047.<br><button class='cta-btn' style='margin-top:14px;' onclick='goToShare()'>See my card →</button>";
+    // Auto-navigate to share screen after brief delay
+    setTimeout(()=> goToShare(), 800);
   }
 }
 
