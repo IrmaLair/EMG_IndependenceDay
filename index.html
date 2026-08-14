@@ -9,12 +9,12 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Imagine India @ 2047">
 <meta property="og:description" content="Discover your Yuva Shakti and build your India @ 2047.">
-<meta property="og:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website%20thumbnail.png">
+<meta property="og:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website-thumbnail.png">
 <meta property="og:url" content="https://emaginations-independence-day-yuva-shakti.onrender.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Imagine India @ 2047">
 <meta name="twitter:description" content="Discover your Yuva Shakti and build your India @ 2047.">
-<meta name="twitter:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website%20thumbnail.png">
+<meta name="twitter:image" content="https://emaginations-independence-day-yuva-shakti.onrender.com/assets/website-thumbnail.png">
 <link rel="canonical" href="https://emaginations-independence-day-yuva-shakti.onrender.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,7 @@
     --cream-deep:#F3E7D4;
     --ink:#2B2320;
     --ink-soft:#6b5f56;
-    --saffron:#DD5B2A;
+    --saffron:#f58634;
     --teal:#1F5A5E;
     --green:#2E6E49;
     --marigold:#F0A93E;
@@ -68,6 +68,7 @@
   .footer-left{display:flex; align-items:center; gap:10px;}
   .footer-left .bulb-wrap{position:relative; bottom:auto; left:auto; margin:0;}
   .footer-right{display:flex; align-items:center; gap:8px;}
+  .footer-logo{width:150px; height:auto; display:block;}
   .screen{
     display:none;
     min-height:100vh;
@@ -130,7 +131,7 @@
   .polaroid img{width:92%; height:92%; object-fit:cover; border-radius:6px}
   .polaroid.left{left:-48px;}
   .polaroid.right{right:-48px;}
-  .headline{font-size: clamp(2.2rem, 6vw, 3.4rem); line-height:1.05;}
+  .headline{font-size: clamp(2.2rem, 6vw, 3.4rem); line-height:1.05; color:#3e4095;}
   .headline em{font-style:italic; color:var(--saffron);}
   .subhead{font-size:1.05rem; color:var(--ink-soft); max-width:440px; line-height:1.55;}
   .cta-btn{
@@ -143,6 +144,21 @@
   .cta-btn:hover{transform:translateY(-2px); background:var(--saffron);}
   .fine-print{font-size:0.82rem; color:var(--ink-soft);}
   .footer-mark{position:relative; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft); font-weight:700; z-index:30;}
+  .name-modal{position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(43,35,32,0.38);}
+  .name-modal[hidden]{display:none;}
+  .name-dialog{width:min(420px,100%); padding:30px 26px; border-radius:22px; background:var(--cream); box-shadow:0 24px 70px rgba(43,35,32,0.25); text-align:center;}
+  .name-dialog h2{font-size:clamp(1.8rem,6vw,2.5rem); margin-bottom:10px;}
+  .name-dialog p{margin:0 auto 20px; color:var(--ink-soft); line-height:1.5;}
+  .name-input{width:100%; border:1.5px solid var(--line); border-radius:12px; padding:13px 14px; color:var(--ink); background:#fff; font:inherit; font-size:1rem;}
+  .name-input:focus{outline:2px solid var(--saffron); outline-offset:2px;}
+  .name-error{min-height:1.3em; margin-top:8px; color:var(--saffron); font-size:0.78rem; font-weight:700;}
+  .sc-name-label{margin-bottom:3px;}
+  @media (max-width:600px){
+    #screen-landing .screen-inner{padding-left:52px; padding-right:52px;}
+    #screen-landing .headline,
+    #screen-landing .subhead,
+    #screen-landing .greetings{max-width:250px;}
+  }
 
   .shared-banner{
     background:var(--cream-deep); border:1px solid var(--line); border-radius:18px;
@@ -275,6 +291,17 @@
 </head>
 <body>
 
+<div class="name-modal" id="nameModal" role="dialog" aria-modal="true" aria-label="Enter your name">
+  <div class="name-dialog">
+    <p>Somewhere between who we are and who we're becoming, there's a version of India only you can imagine.</p>
+    <form id="nameForm">
+      <input class="name-input" id="nameInput" type="text" maxlength="32" autocomplete="name" placeholder="Your name" aria-label="Your name" required>
+      <div class="name-error" id="nameError" aria-live="polite"></div>
+      <button class="cta-btn" type="submit">Let's begin →</button>
+    </form>
+  </div>
+</div>
+
 <div class="app">
 
   <div class="app-content">
@@ -290,8 +317,7 @@
         <!-- polaroids injected by JS -->
       </div>
       <h1 class="headline">Imagine India <em>@ 2047</em></h1>
-      <p class="subhead">Somewhere between who we are and who we're becoming, there's a version of India only you can imagine. What's your Yuva Shakti?</p>
-      <button class="cta-btn" onclick="startQuiz()">Discover Mine →</button>
+      <button class="cta-btn" onclick="startQuiz()">Find my Yuva Shakti →</button>
     </div>
   </section>
 
@@ -347,10 +373,10 @@
       <div class="eyebrow">Your India 2047, imagined</div>
       <div class="card-frame">
         <div id="shareCard">
+          <div class="sc-eyebrow sc-name-label" id="scPersonName"></div>
           <div class="sc-archetype-name" id="scName"></div>
           <div class="sc-archetype-emoji" id="scEmoji"></div>
           <div>
-            <div class="sc-eyebrow" style="margin-bottom:8px;">I choose</div>
             <div class="sc-choices" id="scChoices"></div>
           </div>
           <div class="sc-cta" id="scCta"></div>
@@ -388,7 +414,7 @@
       </div>
     </div>
     <div class="footer-right">
-      <div class="footer-mark">Emaginations</div>
+      <img class="footer-logo" src="assets/emaginations logo.png" alt="Emaginations">
     </div>
   </footer>
 
@@ -401,7 +427,7 @@ const ARCHETYPES = {
     desc:"You don't wait for the picture to be clear. You sketch it yourself, in the dark, before anyone else can see it. India's future needs people who can imagine it before it exists.",
     superpower:'Turning ideas into possibility.',
     cta:"My superpower's imagining what's next. What's yours?"},
-  builder:    {key:'builder',    name:'The Builder',     emoji:'🛠️', color:'#DD5B2A',
+  builder:    {key:'builder',    name:'The Builder',     emoji:'🛠️', color:'#f58634',
     tagline:"You turn ideas into something you can actually touch.",
     desc:"While others are still discussing it, you're already making the first version. India's future gets built one working thing at a time, and you're the one building it.",
     superpower:'Turning ideas into reality.',
@@ -497,6 +523,7 @@ let scores = {imaginer:0, builder:0, connector:0, explorer:0, changemaker:0};
 let currentQ = 0;
 let resultKey = null;
 let chosen = [];
+let playerName = '';
 const bulb = document.getElementById('bulb');
 
 function setBulb(state){ bulb.className = 'bulb-wrap state-' + state; }
@@ -520,6 +547,22 @@ function showScreen(id){
 })();
 setBulb('waking');
 setTimeout(()=>setBulb('idle'), 1400);
+
+const nameModal = document.getElementById('nameModal');
+const nameInput = document.getElementById('nameInput');
+const nameForm = document.getElementById('nameForm');
+nameInput.focus();
+nameForm.addEventListener('submit', (event)=>{
+  event.preventDefault();
+  const value = nameInput.value.trim();
+  if(!value){
+    document.getElementById('nameError').textContent = 'A future-maker needs a name. Try yours.';
+    nameInput.focus();
+    return;
+  }
+  playerName = value;
+  nameModal.hidden = true;
+});
 
   // populate landing collage using icons
 function populateCollage(){
@@ -553,6 +596,11 @@ window.addEventListener('resize', ()=>{
 });
 
 function startQuiz(){
+  if(!playerName){
+    nameModal.hidden = false;
+    nameInput.focus();
+    return;
+  }
   currentQ = 0;
   scores = {imaginer:0, builder:0, connector:0, explorer:0, changemaker:0};
   showScreen('screen-quiz');
@@ -717,6 +765,7 @@ function goToShare(){
   const profileMap = {imaginer:'Imaginer', builder:'Builder', connector:'Connector', explorer:'Explorer', changemaker:'Changemaker'};
   const fileKey = profileMap[resultKey] || profileMap[a.key] || a.name;
   const img = document.createElement('img'); img.src = `assets/profiles/${fileKey}.png`; img.style.width='100%'; img.style.height='auto'; img.style.borderRadius='12px'; img.style.objectFit='cover'; scEmoji.appendChild(img);
+  document.getElementById('scPersonName').textContent = playerName;
   document.getElementById('scName').textContent = a.name;
   const scTitle = document.getElementById('scTitle');
   if (scTitle) scTitle.textContent = a.cta;
