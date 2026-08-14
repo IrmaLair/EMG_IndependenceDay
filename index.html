@@ -268,11 +268,11 @@
   .sc-brand-logo{width:22px; height:auto; margin-top:2px;}
   #shareCard .sc-archetype-name{font-family:'Fraunces',serif; font-style:italic; font-size:calc(1.5rem + 2px); margin-top:0; margin-bottom:5px;}
   #shareCard .sc-title{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; margin-bottom:6px;}
-  #shareCard .sc-choices{display:flex; justify-content:center; align-items:flex-start; gap:12px; margin-top:2px; margin-bottom:4px; width:100%; flex-wrap:nowrap;}
-  #shareCard .sc-choice-wrap{flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px;}
+  #shareCard .sc-choices{display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-top:2px; margin-bottom:4px; width:100%; flex-wrap:nowrap;}
+  #shareCard .sc-choice-wrap{flex:1 1 0; width:0; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px;}
   #shareCard .sc-choice{font-size:1.4rem;}
-  #shareCard .sc-choice-label{font-size:0.65rem; font-weight:700; opacity:0.9; line-height:1.2; margin-top:0px; max-width:none; text-align:center; word-break:break-word; overflow-wrap:anywhere; white-space:normal;}
-  #shareCard .sc-cta{font-family:'Fraunces',serif; font-style:italic; font-size:0.95rem; line-height:1.4; padding:0 6px; margin-top:5px;}
+  #shareCard .sc-choice-label{font-size:0.62rem; font-weight:700; opacity:0.9; line-height:1.2; margin-top:0px; width:100%; max-width:78px; text-align:center; word-break:normal; overflow-wrap:break-word; white-space:normal;}
+  #shareCard .sc-cta{font-family:'Fraunces',serif; font-style:italic; font-size:0.9rem; line-height:1.3; padding:0 8px; margin-top:5px; max-width:250px;}
   #shareCard .sc-signoff{font-size:0.62rem; line-height:1.5; opacity:0.9;}
   #shareCard .sc-brand{font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:800;}
 
@@ -773,7 +773,7 @@ function goToShare(){
   const choicesWrap = document.getElementById('scChoices'); choicesWrap.innerHTML = '';
   chosen.forEach(item=>{
     const d = document.createElement('div'); d.className='sc-choice-wrap';
-    const im = document.createElement('img'); im.src = item.src; im.alt = item.label; im.style.width='58px'; im.style.height='72px'; im.style.objectFit='cover'; im.style.borderRadius='8px';
+    const im = document.createElement('img'); im.src = item.src; im.alt = item.label; im.style.width='52px'; im.style.height='62px'; im.style.objectFit='cover'; im.style.borderRadius='8px';
     const lbl = document.createElement('div'); lbl.className='sc-choice-label'; lbl.textContent = item.label.replace('A ','').replace('An ','');
     d.appendChild(im);
     d.appendChild(lbl);
